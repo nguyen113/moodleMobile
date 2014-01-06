@@ -40,10 +40,8 @@ define(templates, function (listeningVideo, listeningQuestion, reading, manager,
 			var html = MM.tpl.render(MM.plugins.english.templates.listeningVideo.html, tpl);
             if (MM.deviceType == "tablet") {
 				MM.panels.html('right', '');
-            }
-			MM.panels.show("center", ''); 			
-			MM.panels.show("right", html); 	
-				
+            }			
+			MM.panels.show("right", html); 		
         },
 		
 		showQuestion: function(){
