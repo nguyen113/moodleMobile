@@ -30,11 +30,14 @@ define(templates, function (listeningVideo, listeningQuestion, reading, manager,
             ["english/manager", "english_manager", "managerCourse"],
         ],
         
-        listenToVideo: function() {
+        listenToVideo: function(videoID) {
             MM.log('Navigate to Listening page', 'english');
             MM.Router.navigate("");
             MM.panels.showLoading('center');
-			var html = MM.plugins.english.templates.listeningVideo.html;
+			var tpl = {
+				videoID: videoID
+			}
+			var html = MM.tpl.render(MM.plugins.english.templates.listeningVideo.html, tpl);
             if (MM.deviceType == "tablet") {
 				MM.panels.html('right', '');
             }

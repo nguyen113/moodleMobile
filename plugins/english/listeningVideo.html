@@ -1,16 +1,11 @@
-<script>
-if(typeof i == 'undefined')	var i=0;
-	if(i==0)
-	{
-	 var tag = document.createElement('script');
-      tag.src = "https://www.youtube.com/iframe_api";
-      var firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-	  console.log(tag);
-	  var player;
-	  i=1;
-	  }
-</script>
+
+<%	 var tag = document.createElement("script"); %>
+<%	tag.src = "https://www.youtube.com/iframe_api"; %>
+<%      var firstScriptTag = document.getElementsByTagName("script")[0]; %>
+<%      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag); %>
+<%	  console.log(tag); %>
+<%	  var player; %>
+
 	
 <div class="content-index">
     <header>
@@ -32,14 +27,5 @@ if(typeof i == 'undefined')	var i=0;
 		</div>
 </div>
 <script>
-console.log("test");
-            function onYouTubeIframeAPIReady() {
-			
-        player = new YT.Player('player', {
-          height: '390',
-          width: '640',
-          videoId: 'lAKm4WRx0OU'
-        });
-      }
-	  console.log(i);
+player = new YT.Player("player",{height: "390",width: "640",videoId: "_96j8n60ID8"});
 </script>
