@@ -3,10 +3,11 @@ var templates = [
 	"root/externallib/text!root/plugins/english/listeningQuestion.html",
     "root/externallib/text!root/plugins/english/reading.html",
 	"root/externallib/text!root/plugins/english/manager.html",
+	"root/externallib/text!root/plugins/english/gallery.html",
     "root/externallib/text!root/plugins/english/lang/en.json"
 ];
 
-define(templates, function (listeningVideo, listeningQuestion, reading, manager, langStringEN) {	
+define(templates, function (listeningVideo, listeningQuestion, reading, manager, gallery, langStringEN) {	
 	var plugin = {
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//Setting co ban cua plugin
@@ -23,7 +24,8 @@ define(templates, function (listeningVideo, listeningQuestion, reading, manager,
             subMenus: [
                 {name: "listenvideo", menuURL: "#english/listening", icon: "plugins/english/icon.png"},
                 {name: "readingpassage", menuURL: "#english/reading", icon: "plugins/english/icon.png"},
-                {name: "manager", menuURL: "#english/manager", icon: "plugins/english/icon.png"}
+                {name: "manager", menuURL: "#english/manager", icon: "plugins/english/icon.png"},
+				{name: "gallery", menuURL: "#english/gallery", icon: "plugins/english/icon.png"}
             ],
             lang: {
                 component: "my_plugin_en",
@@ -40,6 +42,7 @@ define(templates, function (listeningVideo, listeningQuestion, reading, manager,
             ["english/listening", "english_listen", "listenToVideo"],
             ["english/reading", "english_read", "readingPassage"],
             ["english/manager", "english_manager", "managerCourse"],
+			["english/gallery", "english_galery", "showGallery"],
         ],
         
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,6 +100,14 @@ define(templates, function (listeningVideo, listeningQuestion, reading, manager,
 			MM.panels.show("center", html); 
         },
         
+		
+		showGallery: function() {
+			MM.Router.navigate("");
+			MM.log('Navigate to Gallery page', 'english');
+			MM.panels.showLoading('center');
+			MM.panels.hide('right','');
+		},
+		
         templates: {
             "listeningVideo": {
                 html: listeningVideo
@@ -109,7 +120,10 @@ define(templates, function (listeningVideo, listeningQuestion, reading, manager,
             },
             "manager": {
                 html: manager
-            }
+            },
+			"gallery": {
+				html: gallery
+			}
         }
      }   
     MM.registerPlugin(plugin);
