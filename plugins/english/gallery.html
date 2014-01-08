@@ -1,12 +1,32 @@
-<table width="100%">
-	<tr>
-		<td>Pic1</td>
-		<td>Pic2</td>
-		<td>Pic3</td>
-	</tr>
-	<tr>
-		<td>title1</td>
-		<td>title2</td>
-		<td>title3</td>
-	</tr>
-</table>
+<script>
+	var tag = document.createElement("script"); 
+	tag.src = "https://www.youtube.com/iframe_api"; 
+	console.log("Current time ");
+	var firstScriptTag = document.getElementsByTagName("script")[0]; 
+	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag); 
+</script>
+
+<div class="content-index">
+    <header>
+        <div class="media">
+            <div class="bd">
+                <p>Gallery</p>
+            </div>
+        </div>
+    </header>
+        <ul class="nav nav-v"> 
+                <li class="nav-item media">
+                        <div class="content-name">
+                                        <a href="#english/listening/<%= videoID %>">
+                                        <div class="img">
+                                            <img src="./plugins/english/icon.png" alt="img">
+                                        </div>
+                                        <div class="bd">
+                                            <h3><test1></h3>
+                                        </div>
+                                </a>
+                        </div>
+                </li>
+        </ul>
+
+</div>

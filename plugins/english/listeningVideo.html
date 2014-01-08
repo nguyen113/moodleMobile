@@ -1,14 +1,11 @@
 <script>
-	var tag = document.createElement("script"); 
-	tag.src = "https://www.youtube.com/iframe_api"; 
-	console.log("Current time ");
-	var firstScriptTag = document.getElementsByTagName("script")[0]; 
-	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag); 
-	var player; 
 
+	var player; 
+	var playerState;
 	var timeupdater = null;
 	var videotime = 0;
 	function onPlayerReady(event) {
+		playerState = -1;
 		function updateTime() {
 			var oldTime = videotime;
 			if(player && player.getCurrentTime) {
@@ -29,7 +26,12 @@
 	}
 	
 	function onPlayerStateChange(event){
-			
+		if(event.data==YT.PlayerState.PLAYING && playerState ==-1) {
+			playerState=event.data;
+			MM.panels.show('center','');
+			MM.panels.htmlAppend("center",'<h2>Question 1</h2><div id="radio"><input type="radio" id="radio1" name="radio"><label for="radio1">Choice 1</label><input type="radio" id="radio2" name="radio" checked="checked"><label for="radio2">Choice 2</label>  <input type="radio" id="radio3" name="radio"><label for="radio3">Choice 3</label></div>');
+
+		}
 	}
 </script>
 <div class="content-index">
@@ -48,7 +50,4 @@
 		'onStateChange': onPlayerStateChange,
 		'onReady': onPlayerReady
     }});
-		
 </script>
-<%= MM.panels.show('center','') %>
-<%= MM.panels.appendShow("center",'<h2>Question 1</h2><div id="radio"><input type="radio" id="radio1" name="radio"><label for="radio1">Choice 1</label><input type="radio" id="radio2" name="radio" checked="checked"><label for="radio2">Choice 2</label>  <input type="radio" id="radio3" name="radio"><label for="radio3">Choice 3</label></div>') %>

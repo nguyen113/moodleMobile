@@ -22,7 +22,7 @@ define(templates, function (listeningVideo, listeningQuestion, reading, manager,
             type: "general",
             icon: "plugins/english/icon.png",
             subMenus: [
-                {name: "listenvideo", menuURL: "#english/listening", icon: "plugins/english/icon.png"},
+                {name: "listenvideo", menuURL: "#english/listening/", icon: "plugins/english/icon.png"},
                 {name: "readingpassage", menuURL: "#english/reading", icon: "plugins/english/icon.png"},
                 {name: "manager", menuURL: "#english/manager", icon: "plugins/english/icon.png"},
 				{name: "gallery", menuURL: "#english/gallery", icon: "plugins/english/icon.png"}
@@ -39,7 +39,7 @@ define(templates, function (listeningVideo, listeningQuestion, reading, manager,
 		//Lien quan toi settings.subMenus
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         routes: [
-            ["english/listening", "english_listen", "listenToVideo"],
+            ["english/listening/:videoID", "english_listen", "listenToVideo"],
             ["english/reading", "english_read", "readingPassage"],
             ["english/manager", "english_manager", "managerCourse"],
 			["english/gallery", "english_galery", "showGallery"],
@@ -58,7 +58,7 @@ define(templates, function (listeningVideo, listeningQuestion, reading, manager,
             MM.Router.navigate("");
 			
 			//hien thi loading icon o panel center
-            MM.panels.showLoading('center');
+            //MM.panels.showLoading('center');
 			
 			//tao doi tuong template, gom cac bien truyen vao trang dich
 			var tpl = {
@@ -100,12 +100,26 @@ define(templates, function (listeningVideo, listeningQuestion, reading, manager,
 			MM.panels.show("center", html); 
         },
         
-		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//ham mo giao dien chon bai nghe hoac bai doc
+		//cac tham so:
+		//type: listening/ reading : dieu kien hien thi cua gallery, xuat hien khi click vao listening hoac reading
+		//goi ham bang MM.plugin.english.listenToVideo(id)
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		showGallery: function() {
 			MM.Router.navigate("");
 			MM.log('Navigate to Gallery page', 'english');
 			MM.panels.showLoading('center');
-			MM.panels.hide('right','');
+			//tao doi tuong template, gom cac bien truyen vao trang dich
+			var tpl = {
+				videoID: '_96j8n60ID8'
+			}
+			
+			//render trang listeningVideo voi cac bien tu tpl
+			var html = MM.tpl.render(MM.plugins.english.templates.gallery.html, tpl);
+			MM.panels.hide('right','');			
+			MM.panels.show('center', html); 			
+			
 		},
 		
         templates: {
