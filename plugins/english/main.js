@@ -46,7 +46,6 @@ define(templates, function (listeningVideo, listeningQuestion, reading, manager,
         ],
         
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		//ham mo giao dien video theo videoID cua youtube, dang bi loi, phai mo 2 lan moi hien
 		//goi ham bang MM.plugin.english.listenToVideo(id)
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         listenToVideo: function(videoID) {
@@ -111,14 +110,34 @@ define(templates, function (listeningVideo, listeningQuestion, reading, manager,
 			MM.log('Navigate to Gallery page', 'english');
 			MM.panels.showLoading('center');
 			//tao doi tuong template, gom cac bien truyen vao trang dich
-			var tpl = {
-				videoID: '_96j8n60ID8'
-			}
+			var html;
+			var data = {
+                "videoID": "1"
+            }
+            MM.englishWSCall('getVideo', data, function(videos) {
+                // Removing loading icon.
+                //$('a[href="#participants/' +courseId+ '"]').removeClass('loading-row');
+                var tpl1 = {videos: videos};
+				MM.log('render template',videos);
+                html = MM.tpl.render(MM.plugins.english.templates.gallery.html, tpl1);
+				MM.panels.show('center', html); 
+				//MM.log('Received data', data);
+                //var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
+                //var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
+
+                //MM.panels.show('center', html, {title: pageTitle});
+                // Load the first user
+                //if (MM.deviceType == "tablet" && users.length > 0) {
+                //    $("#panel-center li:eq(0)").addClass("selected-row");
+                //    MM.plugins.participants.showParticipant(courseId, users.shift().id);
+                //    $("#panel-center li:eq(0)").addClass("selected-row");
+                //}
+            });
 			
 			//render trang listeningVideo voi cac bien tu tpl
-			var html = MM.tpl.render(MM.plugins.english.templates.gallery.html, tpl);
+			//var html = MM.tpl.render(MM.plugins.english.templates.gallery.html, tpl);
 			MM.panels.hide('right','');			
-			MM.panels.show('center', html); 			
+						
 			
 		},
 		

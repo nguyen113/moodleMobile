@@ -3,7 +3,10 @@
 	tag.src = "https://www.youtube.com/iframe_api"; 
 	console.log("Current time ");
 	var firstScriptTag = document.getElementsByTagName("script")[0]; 
-	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag); 
+	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+		var videos = <%= videos %>;
+		document.getElementById('video-item').innerHTML='<a id="video-url" href="#english/listening/'+ videos[3] +'" class="media touch-row"><div class="img" id="video-url"><img src="./plugins/english/icon.png" alt="img"></div><div class="bd" id="video-title"><h3>'+ videos[4] +'</h3></div></a>';
+
 </script>
 
 <div class="content-index">
@@ -17,14 +20,13 @@
         <ul class="nav nav-v"> 
                 <li class="nav-item media">
                         <div class="content-name">
-                                        <a href="#english/listening/<%= videoID %>">
-                                        <div class="img">
-                                            <img src="./plugins/english/icon.png" alt="img">
-                                        </div>
-                                        <div class="bd">
-                                            <h3><test1></h3>
-                                        </div>
-                                </a>
+						<ul class="nav nav-v">
+
+											<li class="nav-item" id="video-item">
+												
+											</li>
+
+										</ul>
                         </div>
                 </li>
         </ul>
