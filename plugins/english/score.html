@@ -9,20 +9,22 @@
   <link rel="stylesheet" type="text/css" href="style/style.css" />
   <script>
 	$(document).ready(function()){
+		var choiced = <%=choiced=%>;
+		var correct= <%=correct=%>;
 		var score=0;
 		//check score and display score
-		for(int i=0;i<tpl.choiced.length();i++){
-			if(tpl.choiced[i]==tpl.correct[i])
+		for(int i=0;i<choiced.length();i++){
+			if(choiced[i]==correct[i])
 				score++;
 		}
 		htmlRespond="<h1>Your score is"+score+"</h1>";
 		$('#scorePanel').prepend(htmlRespond);
 		//check detail of answer from user
-		for(int j=0;j<tpl.choiced.length();j++){
-			if(tpl.choiced[j]!=tpl.correct[j]){
-				htmlUserAnswer="<h3>Your answer "+tpl.choiced[j]+"</h3><br/>";
+		for(int j=0;j<choiced.length();j++){
+			if(choiced[j]!=correct[j]){
+				htmlUserAnswer="<h3>Your answer "+choiced[j]+"</h3><br/>";
 				$('#detailPanel').prepend(htmlUserAnswer);
-				htmlCorrectAnswer="<h3>Correct answer "+tpl.correct[j]+"</h3></br>";
+				htmlCorrectAnswer="<h3>Correct answer "+correct[j]+"</h3></br>";
 				$('#detailPanel').preend(htmlCorrectAnswer);
 			
 			}
