@@ -3,6 +3,7 @@
 	var playerState;
 	var timeupdater = null;
 	var videotime = 0;
+	var questions=<%= questions %>;
 	function getPoint(){
 	//array nhung dap an da chon
 	var choiced;
@@ -21,7 +22,23 @@
 		MM.panels.show('right', html);
 		
 	}
+	function sortListByTime(list)
+	{
+		for (var i = 0; i<list.length; i++)
+		{
+			for(var j = i+1; j<list.length; j++){
+				if(list[i].time < list[j].time){
+					var t = list[i];
+					list[i] = list[j];
+					list[j] = t;
+				}
+			}
+		}
+		return list;
+	}
 	
+	var tempList = sortListByTime(questions);
+	var index = 0;
 	function onPlayerReady(event) {
 		MM.panels.html('center', '');
 		MM.panels.htmlPrepend("center",'<input type="button" width="100%" value="END" onclick></input>');
@@ -35,15 +52,18 @@
 				onProgress(videotime);
 			}
 		}
+		console.log(tempList);
 		function onProgress(videotime){
 			var currentTime=Math.round(videotime);
-			if(currentTime==5){
+			if(currentTime==tempList[index].time){
 				console.log("Current time " + player.getCurrentTime() );
-				MM.panels.htmlPrepend("center",'<h2>Question 2</h2><div id="radio"><input type="radio" id="radio1" name="radio"><label for="radio1">Choice 1</label><input type="radio" id="radio2" name="radio" checked="checked"><label for="radio2">Choice 2</label>  <input type="radio" id="radio3" name="radio"><label for="radio3">Choice 3</label></div>');
+				MM.panels.htmlPrepend("center",'<h2>'+tempList[index].question+'</h2><div id="radio"><input type="radio" id="radio1" name="radio'+index+'"><label for="radio1">'+tempList[index].answera+'</label><input type="radio" id="radio2" name="radio'+index+'" checked="checked"><label for="radio2">'+tempList[index].answerb+'</label><input type="radio" id="radio3" name="radio'+index+'"><label for="radio3">'+tempList[index].answerc+'</label></div><input type="radio" id="radio4" name="radio'+index+'"><label for="radio3">'+tempList[index].answerd+'</label></div>');
+				index++;
 			}
 		}
 		timeupdater = setInterval(updateTime, 1000);
 	}
+	
 </script>
 <div class="content-index">
 		<div class="video">
