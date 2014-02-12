@@ -36,7 +36,11 @@
 		}
 		return list;
 	}
-	
+	console.log("videoID = "+<%= id %>);
+	var req = {"get_content_by_video":<%= id %>};
+	MM.englishWSCall(req, function(data){
+		$('.content-message').append('<h1>'+data+'</h1>');
+	});
 	var tempList = sortListByTime(questions);
 	var index = 0;
 	function onPlayerReady(event) {
@@ -52,12 +56,11 @@
 				onProgress(videotime);
 			}
 		}
-		console.log(tempList);
 		function onProgress(videotime){
 			var currentTime=Math.round(videotime);
 			if(currentTime==tempList[index].time){
 				console.log("Current time " + player.getCurrentTime() );
-				MM.panels.htmlPrepend("center",'<h2>'+tempList[index].question+'</h2><div id="radio"><input type="radio" id="radio1" name="radio'+index+'"><label for="radio1">'+tempList[index].answera+'</label><input type="radio" id="radio2" name="radio'+index+'" checked="checked"><label for="radio2">'+tempList[index].answerb+'</label><input type="radio" id="radio3" name="radio'+index+'"><label for="radio3">'+tempList[index].answerc+'</label></div><input type="radio" id="radio4" name="radio'+index+'"><label for="radio3">'+tempList[index].answerd+'</label></div>');
+				MM.panels.htmlPrepend("center",'<h2>'+tempList[index].question+'</h2><p><div id="radio"><input type="radio" id="radio1" name="radio'+index+'"><label for="radio1">'+tempList[index].answera+'</label></p><p><input type="radio" id="radio2" name="radio'+index+'" checked="checked"><label for="radio2">'+tempList[index].answerb+'</label></p><p><input type="radio" id="radio3" name="radio'+index+'"><label for="radio3">'+tempList[index].answerc+'</label></p><p></div><input type="radio" id="radio4" name="radio'+index+'"><label for="radio4">'+tempList[index].answerd+'</label></div></p>');
 				index++;
 			}
 		}
@@ -76,8 +79,8 @@
             </div>
 		</div>
 </div>
-<div class="content-message"> 
-<h1><%= questions %></h1>
+<div class="content-message" id="content-message"> 
+
 </div>
 <script>
 	player = new YT.Player("player",{width: "100%",videoId: "<%= videoID %>",events: {
