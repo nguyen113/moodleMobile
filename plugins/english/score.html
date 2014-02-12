@@ -8,42 +8,40 @@
   <meta http-equiv="content-type" content="text/html; charset=windows-1252" />
   <link rel="stylesheet" type="text/css" href="style/style.css" />
   <script>
-  	$(function(){
-		var point=sessionStorage.getItem("point");
-		var data="<h2>YOUR SCORE IS: </h2>"+point;
-		$('#score').html(data);
+	$(document).ready(function()){
+		var choiced = <%=choiced%>;
+		var correct= <%=correct%>;
+		var score=0;
+		//check score and display score
+		for(int i=0;i<choiced.length();i++){
+			if(choiced[i]==correct[i])
+				score++;
+		}
+		htmlRespond="<h1>Your score is"+score+"</h1>";
+		$('#scorePanel').prepend(htmlRespond);
+		//check detail of answer from user
+		for(int j=0;j<choiced.length();j++){
+			if(choiced[j]!=correct[j]){
+				htmlUserAnswer="<h3>Your answer "+choiced[j]+"</h3><br/>";
+				$('#detailPanel').prepend(htmlUserAnswer);
+				htmlCorrectAnswer="<h3>Correct answer "+correct[j]+"</h3></br>";
+				$('#detailPanel').preend(htmlCorrectAnswer);
+			
+			}
+		}
+		
+		
 	});
   </script>
 </head>
 
 <body>
-  <div id="main">
-    <div id="header">
-        	<div id="logo">
-                <h1><span class="logo_colour">	READING SECTION</span></a></h1>
-                <h2>Welcome To Reading Part</h2>
-            </div>
-      </div>
-      <div id="menubar">
-        <ul id="menu">
-          <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
-          <li><a href="reading.html">Home</a></li>
-          <li class="selected"><a href="mark.html">Mark</a></li>
-        </ul>
-      </div>
-    </div>
-    <div id="site_content">
-      <div class="sidebar">
-       	<h1>Details</h1>
-        <p id="detail"></p>
-      </div>
-      <div id="content">
-        <h1>Your Score</h1>
-        <p id="score"></p>
-      </div>
-    </div>
-    <div id="footer">
-    </div>
+  <div id="scorePanel">
   </div>
+  <br/>
+  <div id="detailPanel">
+  </div>
+  
+
 </body>
 </html>
