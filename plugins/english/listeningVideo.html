@@ -1,10 +1,30 @@
 <script>
-
 	var player; 
 	var playerState;
 	var timeupdater = null;
 	var videotime = 0;
+	function getPoint(){
+	//array nhung dap an da chon
+	var choiced;
+	//dap an dung
+	var corrects;
+	for (var i=0;i<questions.length; i++){
+		correct[i] = questions[i].correct;
+	}
+	var tpl = {
+		choiced: choiced,
+		correct: correct
+	}
+	
+		MM.panels.html('right', '');
+		var html = MM.tpl.render(MM.plugins.english.templates.score.html, tpl);
+		MM.panels.show('right', html);
+		
+	}
+	
 	function onPlayerReady(event) {
+		MM.panels.html('center', '');
+		MM.panels.htmlPrepend("center",'<input type="button" width="100%" value="END" onclick></input>');
 		playerState = -1;
 		function updateTime() {
 			var oldTime = videotime;
@@ -24,15 +44,6 @@
 		}
 		timeupdater = setInterval(updateTime, 1000);
 	}
-	
-	function onPlayerStateChange(event){
-		if(event.data==YT.PlayerState.PLAYING && playerState ==-1) {
-			playerState=event.data;
-			MM.panels.show('center','');
-			MM.panels.htmlAppend("center",'<h2>Question 1</h2><div id="radio"><input type="radio" id="radio1" name="radio"><label for="radio1">Choice 1</label><input type="radio" id="radio2" name="radio" checked="checked"><label for="radio2">Choice 2</label>  <input type="radio" id="radio3" name="radio"><label for="radio3">Choice 3</label></div>');
-
-		}
-	}
 </script>
 <div class="content-index">
 		<div class="video">
@@ -45,9 +56,11 @@
             </div>
 		</div>
 </div>
+<div class="content-message"> 
+<h1><%= questions %></h1>
+</div>
 <script>
-	player = new YT.Player("player",{width: "100%",videoId: "_96j8n60ID8",events: {
-		'onStateChange': onPlayerStateChange,
+	player = new YT.Player("player",{width: "100%",videoId: "<%= videoID %>",events: {
 		'onReady': onPlayerReady
     }});
 </script>

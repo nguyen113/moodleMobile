@@ -1,34 +1,29 @@
 <script>
 	var tag = document.createElement("script"); 
 	tag.src = "https://www.youtube.com/iframe_api"; 
+	//console.log(<%= videos %>);
 	console.log("Current time ");
 	var firstScriptTag = document.getElementsByTagName("script")[0]; 
 	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-		var videos = <%= videos %>;
-		document.getElementById('video-item').innerHTML='<a id="video-url" href="#english/listening/'+ videos[3] +'" class="media touch-row"><div class="img" id="video-url"><img src="./plugins/english/icon.png" alt="img"></div><div class="bd" id="video-title"><h3>'+ videos[4] +'</h3></div></a>';
-
+	var videos = <%= videos %>;
+	//var videos = [{"id":"1","owner":"1","content":"This is a testing content for this video","url":"1VkheIjSOF","name":"Video Testing"},{"id":"2","owner":"2","content":"This is a testing content for this video","url":"1VkheIjSOF","name":"Video Testing 2"}];
+	for (var i=0; i<videos.length;i++){
+		console.log(videos[i].name);
+		$('.main-content ul').append('<li class="nav-item media"><a id="video-url" href="#english/listening/'+ videos[i].url +'/' + videos[i].id +'" class="media touch-row"><div class="img" id="video-url"><img width="80" src="http://img.youtube.com/vi/'+ videos[i].url  +'/1.jpg" alt="img"></div><div class="bd" id="video-title"><h3>'+ videos[i].name +'</h3>' + videos[i].content + '</div></a></li>');
+	}
+	//console.log(<%= videos %>);
+		//var videos = <%= videos %>;
+	
 </script>
 
 <div class="content-index">
     <header>
-        <div class="media">
-            <div class="bd">
-                <p>Gallery</p>
-            </div>
-        </div>
+        <h1>Gallery</h1>
     </header>
-        <ul class="nav nav-v"> 
-                <li class="nav-item media">
-                        <div class="content-name">
-						<ul class="nav nav-v">
-
-											<li class="nav-item" id="video-item">
-												
-											</li>
-
-										</ul>
-                        </div>
-                </li>
-        </ul>
-
 </div>
+<div class="main-content">
+        <ul class="nav nav-v" id="content-list" > 
+               
+        </ul>
+</div>
+

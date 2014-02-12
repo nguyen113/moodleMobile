@@ -1,7 +1,8 @@
 {
     "pluginenglishname": "English",
-	"listenvideo" : "Listening",
-	"readingpassage" : "Reading",
-	"manager" : "Manager",
-    "nogrades": "No grades information for this activity"
+	"listenvideo": "Listening",
+	"readingpassage": "Reading",
+	"manager": "Manager",
+    "nogrades": "No grades information for this activity",
+	"gallery": "Video Gallery"
 }
