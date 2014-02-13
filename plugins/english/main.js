@@ -1,14 +1,12 @@
 var templates = [
     "root/externallib/text!root/plugins/english/listeningVideo.html",
-	"root/externallib/text!root/plugins/english/listeningQuestion.html",
-    "root/externallib/text!root/plugins/english/reading.html",
 	"root/externallib/text!root/plugins/english/manager.html",
 	"root/externallib/text!root/plugins/english/gallery.html",
 	"root/externallib/text!root/plugins/english/score.html",
     "root/externallib/text!root/plugins/english/lang/en.json"
 ];
 
-define(templates, function (listeningVideo, listeningQuestion, reading, manager, gallery, score, langStringEN) {	
+define(templates, function (listeningVideo, manager, gallery, score, langStringEN) {	
 	var plugin = {
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//Setting co ban cua plugin
@@ -23,7 +21,8 @@ define(templates, function (listeningVideo, listeningQuestion, reading, manager,
             type: "general",
             icon: "plugins/english/icon.png",
             subMenus: [
-				{name: "gallery", menuURL: "#english/gallery", icon: "plugins/english/icon.png"}
+				{name: "gallery", menuURL: "#english/gallery", icon: "plugins/english/icon.png"},
+				{name: "manager", menuURL: "#english/manager", icon: "plugins/english/icon.png"}
             ],
             lang: {
                 component: "english",
@@ -38,7 +37,7 @@ define(templates, function (listeningVideo, listeningQuestion, reading, manager,
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         routes: [
             ["english/listening/:videoID/:id", "english_listen", "showVideo"],
-            ["english/manager", "english_manager", "managerCourse"],
+            ["english/manager", "english_manager", "showManager"],
 			["english/gallery", "english_galery", "showGallery"],
         ],
         
@@ -77,15 +76,25 @@ define(templates, function (listeningVideo, listeningQuestion, reading, manager,
 			MM.panels.showLoading('center');
 		},
         
-        managerCourse: function() {
+        showManager: function() {
             MM.Router.navigate("");
             MM.log('Navigate to Manager page', 'english');
-			MM.panels.showLoading('center');
-			var html = MM.plugins.english.templates.manager.html;
-            if (MM.deviceType == "tablet") {
-                MM.panels.html('right', '');
+
+			//tao doi tuong template, gom cac bien truyen vao trang dich
+			var html;
+			var data = {
+                "get_user_video": "1",
+				"user_id":MM.site.get('username'),
+				"site":MM.site.get('siteurl'),
             }
-			MM.panels.show("center", html); 
+            MM.englishWSCall(data, function(videos) {
+                var tpl1 = {videos: videos};
+                html = MM.tpl.render(MM.plugins.english.templates.gallery.html, tpl1);
+				MM.panels.show('center', html); 
+            });
+			//render trang listeningVideo voi cac bien tu tpl
+			//var html = MM.tpl.render(MM.plugins.english.templates.gallery.html, tpl);
+			MM.panels.hide('right','');
         },
         
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,41 +113,20 @@ define(templates, function (listeningVideo, listeningQuestion, reading, manager,
                 "list_video": "1"
             }
             MM.englishWSCall(data, function(videos) {
-                // Removing loading icon.
-                //$('a[href="#participants/' +courseId+ '"]').removeClass('loading-row');
                 var tpl1 = {videos: videos};
 				MM.log('render template',videos);
                 html = MM.tpl.render(MM.plugins.english.templates.gallery.html, tpl1);
 				MM.panels.show('center', html); 
-				//MM.log('Received data', data);
-                //var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
-                //var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
-
-                //MM.panels.show('center', html, {title: pageTitle});
-                // Load the first user
-                //if (MM.deviceType == "tablet" && users.length > 0) {
-                //    $("#panel-center li:eq(0)").addClass("selected-row");
-                //    MM.plugins.participants.showParticipant(courseId, users.shift().id);
-                //    $("#panel-center li:eq(0)").addClass("selected-row");
-                //}
             });
 			
 			//render trang listeningVideo voi cac bien tu tpl
 			//var html = MM.tpl.render(MM.plugins.english.templates.gallery.html, tpl);
 			MM.panels.hide('right','');			
-						
-			
 		},
 		
         templates: {
             "listeningVideo": {
                 html: listeningVideo
-            },
-            "listeningQuestion": {
-                html: listeningQuestion
-            },
-            "reading": {
-                html: reading
             },
             "manager": {
                 html: manager
