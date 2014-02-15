@@ -1,0 +1,61 @@
+<script>
+	var player; 
+	var playerState;
+	var timeupdater = null;
+	var videotime = 0;
+	var questions=<%= questions %>;
+	var req = {"get_content_by_video":<%= videoID %>};
+	MM.englishWSCall(req, function(data){
+		$('.content-message').append('<h1>'+data+'</h1>');
+	});
+	var tempList = MM.plugins.english.sortListByTime(questions);
+	var index = 0;
+	function onPlayerReady(event) {
+		MM.panels.html('center', '');
+		MM.panels.htmlPrepend("center",'<button>END</button>');
+		playerState = -1;
+		function updateTime() {
+			var oldTime = videotime;
+			if(player && player.getCurrentTime) {
+				videotime = player.getCurrentTime();
+			}
+			if(videotime !== oldTime) {
+				onProgress(videotime);
+			}
+		}
+		function onProgress(videotime){
+			var currentTime=Math.round(videotime);
+			console.log(tempList,"tempList");
+			if(currentTime==tempList[index].time){
+				console.log("Current time " + player.getCurrentTime() );
+				MM.plugins.english.addQuestionToList( index, tempList[index].question, tempList[index].answera, tempList[index].answerb, tempList[index].answerc, tempList[index].answerd, tempList[index].videoid, "play");
+				index++;
+			}
+		}
+		timeupdater = setInterval(updateTime, 1000);
+	}
+	
+</script>
+<div class="nav nav-v">
+	<div class="nav-item">
+		<div class="video">
+            <div class="nav nav-v">
+				<div id="player">
+					<div id="displayDiv">
+						<div id="title"></div>
+					</div>
+				</div>             
+            </div>
+		</div>
+	</div>
+
+<div class="nav-item centered" id="content-message"> 
+
+</div>
+</div>
+<script>
+	player = new YT.Player("player",{width: "100%",videoId: "<%= youtubeVideoID %>",events: {
+		'onReady': onPlayerReady
+    }});
+</script>
+

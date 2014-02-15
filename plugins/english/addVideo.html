@@ -1,0 +1,46 @@
+<% if(videoID=="new") { %>
+<div class="nav nav-v">
+	<div class="nav-item">
+		<header>
+			<div class="bd">
+				<h1>Add new Video</h1>
+			</div>
+		</header>
+	</div>
+	<div class="nav-item" id="video_name">
+		<input type="text" placeholder="video name" id="name" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 98%; margin: 0.30769rem 0 0.30769rem 0.30769rem;"></input>
+	</div>
+	<div class="nav-item" id="video_url">
+		<input type="text" placeholder="http://youtu.be/YOUR_ID_HERE" id="youtubeID" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 98%; margin: 0.30769rem 0 0.30769rem 0.30769rem;"></input>
+	</div>
+	<div class="nav-item" id="video_content">
+		<textarea placeholder="video content" id="content" cols="40" rows="5" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 98%; margin: 0.30769rem 0 0.30769rem 0.30769rem;"></textarea>
+	</div>
+</div>
+	<div class="nav nav-v centered">
+		<a><button width="100%" id="save" onclick="MM.plugins.english.addVideo();">Create</button></a>
+	</div>
+
+<% } else {%>
+<div class="nav nav-v">
+	<div class="nav-item">
+		<header>
+			<div class="bd">
+				<h1>Edit video</h1>
+			</div>
+		</header>
+	</div>
+	<div class="nav-item" id="video_name">
+		<input type="text" placeholder="video name" id="name" value="<%= name %>" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 98%; margin: 0.30769rem 0 0.30769rem 0.30769rem;"></input>
+	</div>
+	<div class="nav-item" id="video_url">
+		<input type="text" placeholder="video URL" id="youtubeID"  value="<%= url %>" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 98%; margin: 0.30769rem 0 0.30769rem 0.30769rem;"></input>
+	</div>
+	<div class="nav-item" id="video_content">
+		<textarea placeholder="video content" id="content"  cols="40" rows="5" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 98%; margin: 0.30769rem 0 0.30769rem 0.30769rem;"><%= content %></textarea>
+	</div>
+</div>
+	<div class="nav nav-v centered">
+		<a><button width="100%" id="save" onclick="MM.plugins.english.editVideo(<%=videoID%>);">Save</button></a>
+	</div>
+<%}%>	

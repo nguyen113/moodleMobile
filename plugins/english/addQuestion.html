@@ -1,0 +1,115 @@
+<% if(questionid=="new") {%>
+<div class="nav nav-v">
+	<div class="nav-item">
+		<header>
+			<div class="bd">
+				<h1>Add new question</h1>
+			</div>
+		</header>
+	</div>
+	<div class="nav-item" id="video_screen">
+		<div class="video">
+            <div class="nav nav-v">
+				<div id="player">
+				</div>             
+            </div>
+		</div> 
+	</div>
+	<div class="nav-item centered">
+		<div class="nav-item">
+			<input readonly="readonly" id="current_time" id="add" style="float: right; text-align: right; "></button>
+			<button id="add" style="float: right; text-align: right; " onclick="MM.plugins.english.addQuestion('<%= videoID%>');">ADD</button>
+		</div>
+		<div class="nav-item" >
+			<textarea placeholder="question content" id="question_content" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 100%; min-height:3.84615rem; margin: 0.30769rem 0 0.30769rem 0.30769rem;"></textarea>
+		</div>
+		<div class="nav-item centered">
+			<input type="text" placeholder="answer A" id="content_answer_a" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;"></input>
+			<div class="checkbox-tic-s"><input type="checkbox" class="answer_new" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, 'new');" value="1"></input><label for="dev_debug"></label></div>
+		</div>
+		<div class="nav-item centered">
+			<input type="text" placeholder="answer B"  id="content_answer_b"  style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;"></input>
+			<div class="checkbox-tic-s"><input type="checkbox" class="answer_new" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, 'new');" value="2"></input><label for="dev_debug"></label></div>
+		</div>
+		<div class="nav-item centered">
+			<input type="text" placeholder="answer C"  id="content_answer_c" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;"></input>
+			<div class="checkbox-tic-s"><input type="checkbox" class="answer_new" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, 'new');" value="3"></input><label for="dev_debug"></label></div>
+		</div>
+		<div class="nav-item centered">
+			<input type="text" placeholder="answer D"  id="content_answer_d" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;"></input>
+			<div class="checkbox-tic-s"><input type="checkbox" class="answer_new" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, 'new');" value="4"></input><label for="dev_debug"></label></div>
+		</div>
+	</div>	
+</div>
+<%} else{%>
+<div class="nav nav-v">
+	<div class="nav-item">
+		<header>
+			<div class="bd">
+				<h1>Edit question</h1>
+			</div>
+		</header>
+	</div>
+	<div class="nav-item" id="video_screen">
+		<div class="video">
+            <div class="nav nav-v">
+				<div id="player">
+				</div>             
+            </div>
+		</div> 
+	</div>
+	<div class="nav-item centered">
+		<div class="nav-item">
+			<input readonly="readonly" id="current_time" value="<%= time%>" id="add" style="float: right; text-align: right; "></button>
+			<button id="add" style="float: right; text-align: center; " onclick="MM.plugins.english.addQuestion('<%= videoID%>');">Save</button>
+		</div>
+		<div class="nav-item" >
+			<textarea placeholder="question content" id="question_content" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 100%; min-height:3.84615rem; margin: 0.30769rem 0 0.30769rem 0.30769rem;"><%= content %></textarea>
+		</div>
+		<div class="nav-item centered">
+			<input type="text" placeholder="answer A" id="content_answer_a" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;" value="<%= answera %>"/>
+			<div class="checkbox-tic-s"><input type="checkbox" class="answer_<%= questionid%>" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, '<%= questionid%>');" value="1"></input><label for="dev_debug"></label></div>
+		</div>
+		<div class="nav-item centered">
+			<input type="text" placeholder="answer B"  id="content_answer_b"  style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;" value="<%= answerb %>"/>
+			<div class="checkbox-tic-s"><input type="checkbox" class="answer_<%= questionid%>" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, '<%= questionid%>');" value="2"></input><label for="dev_debug"></label></div>
+		</div>
+		<div class="nav-item centered">
+			<input type="text" placeholder="answer C"  id="content_answer_c" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;" value="<%= answerc %>"/>
+			<div class="checkbox-tic-s"><input type="checkbox" class="answer_<%= questionid%>" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, '<%= questionid%>');" value="3"></input><label for="dev_debug"></label></div>
+		</div>
+		<div class="nav-item centered">
+			<input type="text" placeholder="answer D"  id="content_answer_d" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;" value="<%= answerd %>"/>
+			<div class="checkbox-tic-s"><input type="checkbox" class="answer_<%= questionid%>" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, '<%= questionid%>');" value="4"></input><label for="dev_debug"></label></div>
+		</div>
+	</div>	
+</div>
+<%}%>
+<script>
+	var player = new YT.Player('player', {
+			width: '100%',
+			videoId: '<%= youtubeVideoID %>',
+			events: {
+				'onReady': onPlayerReady
+			}
+        });
+	var currentTime=0;
+	
+	function onPlayerReady(event) {
+		player.addEventListener('onStateChange', function(e) {
+			console.log('content:', $('#current_time').val());
+			if(e.data==1){
+				function updateTime() {
+					currentTime = player.getCurrentTime();
+					$('#current_time').val(Math.round(currentTime));
+				}
+				timeupdater = setInterval(updateTime, 500);
+			}
+			else{
+				clearInterval(timeupdater);
+			}
+		});
+	}
+	
+	var timeupdater;
+</script>

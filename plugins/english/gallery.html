@@ -1,29 +1,29 @@
 <script>
-	var tag = document.createElement("script"); 
-	tag.src = "https://www.youtube.com/iframe_api"; 
-	//console.log(<%= videos %>);
-	console.log("Current time ");
-	var firstScriptTag = document.getElementsByTagName("script")[0]; 
-	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 	var videos = <%= videos %>;
-	//var videos = [{"id":"1","owner":"1","content":"This is a testing content for this video","url":"1VkheIjSOF","name":"Video Testing"},{"id":"2","owner":"2","content":"This is a testing content for this video","url":"1VkheIjSOF","name":"Video Testing 2"}];
+	var hrefURL;
 	for (var i=0; i<videos.length;i++){
-		console.log(videos[i].name);
-		$('.main-content ul').append('<li class="nav-item media"><a id="video-url" href="#english/listening/'+ videos[i].url +'/' + videos[i].videoid +'" class="media touch-row"><div class="img" id="video-url"><img width="80" src="http://img.youtube.com/vi/'+ videos[i].url  +'/1.jpg" alt="img"></div><div class="bd" id="video-title"><h3>'+ videos[i].name +'</h3>' + videos[i].username + '</div></a></li>');
+	<% if(source=="Gallery") { %>
+		hrefURL = '#english/listening/'+ videos[i].url +'/' + videos[i].videoid ;
+	<% } else {%>
+		hrefURL = '#english/edit_video/'+ videos[i].videoid ;
+	<%}%>	
+		$('.main-content ul').append('<li class="nav-item media"><div><a id="video-url" href="' + hrefURL + '" class="media touch-row"><div class="img" id="video-url"><img width="80" src="http://img.youtube.com/vi/'+ videos[i].url  +'/1.jpg" alt="img"></div><div class="bd" id="video-title"><label for="videoname">'+ videos[i].username +'</label><input type="text" value="'+ videos[i].name +'" id="videoname" style="border: 0; color: #f6931f; font-weight: bold;" readonly="readonly"></div></a>'+
+		<% if(source!="Gallery") { %>
+		'<button style="width: 49px;height: 30px;margin-left: 10.1rem;margin-top: -1.5rem;padding: 5px 13px 0.2rem 0.2rem;" onclick="MM.plugins.english.deleteVideo('+videos[i].videoid+')">Delete</button>'+
+		<% }%>
+		'</div></li>');
 	}
-	//console.log(<%= videos %>);
-		//var videos = <%= videos %>;
-	
 </script>
-
-<div class="content-index">
-    <header>
-        <h1>Gallery</h1>
-    </header>
+<div class="nav nav-v">
+	<div class="nav-item">
+		<header>
+			<div class="bd">
+				<h1><%= source %></h1>
+			</div>
+		</header>
+	</div>
+	<div class="main-content">
+			<ul class="nav nav-v" id="content-list" >    
+			</ul>
+	</div>
 </div>
-<div class="main-content">
-        <ul class="nav nav-v" id="content-list" > 
-               
-        </ul>
-</div>
-
