@@ -112,17 +112,10 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 			MM.Router.navigate("");
             MM.log('Navigate to show video', 'english');
 				scoreList = [{
-<<<<<<< HEAD
 					'questionID': '',
 					'correctAnswer': '',
 					'userAnswer': '',
 					'result': ''
-=======
-					questionID: '',
-					correctAnswer: 0,
-					userAnswer: 0,
-					result: 0
->>>>>>> origin/master
 				}];			
             var questions;
 			var data = {
@@ -133,17 +126,10 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 				tlist = JSON.parse(list);
 				for (var i = 0; i<tlist.length; i++){
 					scoreList.push({
-<<<<<<< HEAD
 						'questionID': String(tlist[i].id),
 						'correctAnswer': String(tlist[i].correct),
 						'userAnswer': '0',
 						'result': '0'
-=======
-						questionID: tlist[i].id,
-						correctAnswer: tlist[i].correct,
-						userAnswer: '0',
-						result: '0'
->>>>>>> origin/master
 					});
 				}
 				var tpl = {
@@ -265,11 +251,7 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 					for (var i=0;i<tempList.length; i++){
 						var arrObj = tempList[i];
 						MM.plugins.english.addQuestionToList(i,arrObj.question,arrObj.answera, arrObj.answerb, arrObj.answerc, arrObj.answerd, arrObj.id, videoID,source, arrObj.correct);
-<<<<<<< HEAD
 					}					
-=======
-					}
->>>>>>> origin/master
 			});
 		},
 		
@@ -469,7 +451,6 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 		},
 		
 		updateAnswer: function(elem,questionid,source,correct){
-<<<<<<< HEAD
 			var lastChoice = MM.plugins.english.handleCheckBoxAsRadioGroup(elem,questionid,source);
 			var uAnswer = MM.plugins.english.getUserChoice(questionid, source);	
 			for(var i=1;i<scoreList.length;i++){
@@ -477,27 +458,6 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 					var tQuestionId = scoreList[i].questionID;
 					var tCorrectAnswer = scoreList[i].correctAnswer;
 					scoreList[i].userAnswer= uAnswer;
-=======
-			MM.Router.navigate("");
-console.log(scoreList,"scoreList before update");
-			var lastChoice = MM.plugins.english.handleCheckBoxAsRadioGroup(elem,questionid,source);
-console.log(scoreList,"scoreList before update");
-			var uAnswer = MM.plugins.english.getUserChoice(questionid, source);	
-console.log(scoreList,"scoreList before update");
-			for(var i=1;i<scoreList.length;i++){
-				if(scoreList[i].questionID == questionid){
-					var tQuestionId = scoreList[i].questionId;
-					var tCorrectAnswer = scoreList[i].correctAnswer;
-					scoreList.pop({
-						questionID: tQuestionId
-					});
-					scoreList.push({
-						questionID: tQuestionId,
-						correctAnswer: tCorrectAnswer,
-						userAnswer: uAnswer,
-						result: 0
-					});
->>>>>>> origin/master
 				}
 			}
 		},		
@@ -521,35 +481,15 @@ console.log(scoreList,"scoreList before update");
 					console.log(tableCorrect,'tableCorrect');
 					if(scoreList[i].userAnswer == parseInt(scoreList[i].correctAnswer)){
 						tableUserChoice = tableUserChoice + "<td style='background: chartreuse;'>" + scoreList[i].userAnswer + "</td>";
-<<<<<<< HEAD
 						scoreList[i].result='1';
-=======
-						var tQuestionId = scoreList[i].questionID;
-						var tCorrectAnswer = scoreList[i].correctAnswer;
-						var tUserAnswer = scoreList[i].userAnswer;
-						scoreList.pop({
-							questionID: scoreList[i].questionID
-						});
-						console.log(scoreList,'scorelist after pop');
-						scoreList.push({
-							questionID: tQuestionId,
-							correctAnswer: tCorrectAnswer,
-							userAnswer: tUserAnswer,
-							result: 1
-						});
->>>>>>> origin/master
 						cScore++;
 					}else {
 						tableUserChoice = tableUserChoice + "<td style='background: red;'>" + scoreList[i].userAnswer + "</td>";
 					}
 				}	
 				console.log(cScore,'last score');
-<<<<<<< HEAD
 				var totalQuestion = scoreList.length -1;
 				var htmlInput = "<div class= 'bd'><h1>You answer correct "+cScore+"/"+totalQuestion+" questions<h1></div>";
-=======
-				var htmlInput = "<div class= 'bd'><h1>You answer correct "+cScore+"/"+scoreList.length-1+" questions<h1></div>";
->>>>>>> origin/master
 				$('.video').html( table1 + tableQuestion + table2 + tableUserChoice + table3 + tableCorrect + table4);
 				$('#content-message').html(htmlInput);
 			});
@@ -755,17 +695,10 @@ console.log(scoreList,"scoreList before update");
 	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 	
 	var scoreList = [{
-<<<<<<< HEAD
 		'questionID': '',
 		'correctAnswer': '',
 		'userAnswer': '',
 		'result': ''
-=======
-		questionID: '',
-		correctAnswer: 0,
-		userAnswer: 0,
-		result: 0
->>>>>>> origin/master
 	}];
 	
 	MM.registerPlugin(plugin);
