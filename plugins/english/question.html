@@ -1,7 +1,7 @@
 <div class="nav nav-v">
 <% if(source=="edit"){%>
-	<div class="nav-item" id="video_name"> 
-		<input type="text" placeholder="video name" readonly="readonly" value="<%= question %>" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 70%; margin: 0.30769rem 0 0.30769rem 0.30769rem;"></input>
+	<div class="nav-item" id="video_name_<%= questionid%>" >
+		<input type="text" placeholder="video name" readonly="readonly" value="<%= decodeURIComponent(question) %>" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 70%; margin: 0.30769rem 0 0.30769rem 0.30769rem;"></input>
 		<div style="float: right; text-align: right; width: 40px; padding-top: 2px;" id="delele_question">
 			<a><button class="delete_question" onclick="MM.plugins.english.showEditQuestion('<%= questionid%>','<%= videoID%>');" style="width: 30px; height: 30px; padding: 0px; margin-left: 4px">...</button></a>
 		</div>
@@ -10,46 +10,38 @@
 		</div>
 	</div>
 <%} else{%>
-	<div class="nav-item" id="video_name"> 
-		<input type="text" placeholder="video name" readonly="readonly" value="<%= question %>" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 97%; margin: 0.30769rem 0 0.30769rem 0.30769rem;"></input>
+	<div class="nav-item" id="video_name_<%= questionid%>"> 
+		<input type="text" placeholder="video name" readonly="readonly" value="<%= decodeURIComponent(question) %>" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 97%; margin: 0.30769rem 0 0.30769rem 0.30769rem;"></input>
 	</div>
 <% }%>
-	<div class="nav-item" id="video_url">
+	<div class="nav-item">
 		<p>
-			<div class="checkbox-setting-s">
 				<div class="checkbox-label-s"></div>
-				<div>
-					<input type="checkbox" class="answer_<%= questionid%>" id="answer_a" style="width: 25px;height: 25px;" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, '<%= questionid%>');" >
+				<div id="result-answer_a_<%= questionid%>" >
+					<input type="checkbox" class="answer_play_<%= questionid%>" id="answer_a" value="1" style="width: 25px;height: 25px;" onclick="MM.plugins.english.updateAnswer(this, '<%= questionid%>', 'play', '<%= correct %>');" value='1' >
 					<label for="answer_a" style="font-family: Georgia, serif;font-style: italic;"> <%= answera %></label>
 				</div>
-			</div>
 		</p>
 		<p>
-			<div class="checkbox-setting-s">
-				<div class="checkbox-label-s"></div>
-				<div >
-					<input type="checkbox" class="answer_<%= questionid%>" id="answer_b" style="width: 25px;height: 25px;" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, '<%= questionid%>');" >
+				<div class="checkbox-label-b"></div>
+				<div id="result-answer_b_<%= questionid%>" >
+					<input type="checkbox" class="answer_play_<%= questionid%>" id="answer_b" value="2" style="width: 25px;height: 25px;" onclick="MM.plugins.english.updateAnswer(this, '<%= questionid%>', 'play', '<%= correct %>');" value='2' >
 					<label for="answer_b" style="font-family: Georgia, serif;font-style: italic;" > <%= answerb %></label>
 				</div>
-			</div>
 		</p>
 		<p>
-			<div class="checkbox-setting-s">
-				<div class="checkbox-label-s"></div>
-				<div>
-					<input type="checkbox" class="answer_<%= questionid%>" id="answer_c" style="width: 25px;height: 25px;" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, '<%= questionid%>');" >
+				<div class="checkbox-label-c"></div>
+				<div id="result-answer_c_<%= questionid%>" >
+					<input type="checkbox" class="answer_play_<%= questionid%>" id="answer_c" value="3" style="width: 25px;height: 25px;" onclick="MM.plugins.english.updateAnswer(this, '<%= questionid%>', 'play', '<%= correct %>');" value='3' >
 					<label for="answer_c" style="font-family: Georgia, serif;font-style: italic;"> <%= answerc %></label>
 				</div>
-			</div>
 		</p>
 		<p>
-			<div class="checkbox-setting-s">
-				<div class="checkbox-label-s"></div>
-				<div>
-					<input type="checkbox" id="answer_d" class="answer_<%= questionid%>" style="width: 25px;height: 25px;" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, '<%= questionid%>');" >
+				<div class="checkbox-label-d"></div>
+				<div id="result-answer_d_<%= questionid%>" >
+					<input type="checkbox" id="answer_d" class="answer_play_<%= questionid%>" value="4" style="width: 25px;height: 25px;" onclick="MM.plugins.english.updateAnswer(this, '<%= questionid%>', 'play', '<%= correct %>');" value='4' >
 					<label for="answer_d" style="font-family: Georgia, serif;font-style: italic;"> <%= answerd %></label>
 				</div>
-			</div>
 		</p>
 	</div>
 </div>

@@ -17,27 +17,27 @@
 	</div>
 	<div class="nav-item centered">
 		<div class="nav-item">
-			<input readonly="readonly" id="current_time" id="add" style="float: right; text-align: right; "></button>
+			<input id="current_time_new" id="add" style="float: right; text-align: right; "></button>
 			<button id="add" style="float: right; text-align: right; " onclick="MM.plugins.english.addQuestion('<%= videoID%>');">ADD</button>
 		</div>
 		<div class="nav-item" >
-			<textarea placeholder="question content" id="question_content" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 100%; min-height:3.84615rem; margin: 0.30769rem 0 0.30769rem 0.30769rem;"></textarea>
+			<textarea placeholder="question content" id="question_content_new" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 100%; min-height:3.84615rem; margin: 0.30769rem 0 0.30769rem 0.30769rem;"></textarea>
 		</div>
 		<div class="nav-item centered">
-			<input type="text" placeholder="answer A" id="content_answer_a" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;"></input>
-			<div class="checkbox-tic-s"><input type="checkbox" class="answer_new" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, 'new');" value="1"></input><label for="dev_debug"></label></div>
+			<input type="text" placeholder="answer A" id="content_answer_a_new" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;"></input>
+			<div class="checkbox-tic-s"><input type="checkbox" class="answer_new" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, 'new', 'new');" value="1"></input><label for="dev_debug"></label></div>
 		</div>
 		<div class="nav-item centered">
-			<input type="text" placeholder="answer B"  id="content_answer_b"  style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;"></input>
-			<div class="checkbox-tic-s"><input type="checkbox" class="answer_new" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, 'new');" value="2"></input><label for="dev_debug"></label></div>
+			<input type="text" placeholder="answer B"  id="content_answer_b_new"  style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;"></input>
+			<div class="checkbox-tic-s"><input type="checkbox" class="answer_new" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, 'new', 'new');" value="2"></input><label for="dev_debug"></label></div>
 		</div>
 		<div class="nav-item centered">
-			<input type="text" placeholder="answer C"  id="content_answer_c" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;"></input>
-			<div class="checkbox-tic-s"><input type="checkbox" class="answer_new" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, 'new');" value="3"></input><label for="dev_debug"></label></div>
+			<input type="text" placeholder="answer C"  id="content_answer_c_new" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;"></input>
+			<div class="checkbox-tic-s"><input type="checkbox" class="answer_new" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, 'new', 'new');" value="3"></input><label for="dev_debug"></label></div>
 		</div>
 		<div class="nav-item centered">
-			<input type="text" placeholder="answer D"  id="content_answer_d" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;"></input>
-			<div class="checkbox-tic-s"><input type="checkbox" class="answer_new" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, 'new');" value="4"></input><label for="dev_debug"></label></div>
+			<input type="text" placeholder="answer D"  id="content_answer_d_new" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;"></input>
+			<div class="checkbox-tic-s"><input type="checkbox" class="answer_new" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, 'new', 'new');" value="4"></input><label for="dev_debug"></label></div>
 		</div>
 	</div>	
 </div>
@@ -60,27 +60,27 @@
 	</div>
 	<div class="nav-item centered">
 		<div class="nav-item">
-			<input readonly="readonly" id="current_time" value="<%= time%>" id="add" style="float: right; text-align: right; "></button>
-			<button id="add" style="float: right; text-align: center; " onclick="MM.plugins.english.addQuestion('<%= videoID%>');">Save</button>
+			<input id="current_time_<%= questionid%>" value="<%= time%>" id="add" style="float: right; text-align: right; "></button>
+			<button id="add" style="float: right; text-align: center; " onclick="MM.plugins.english.editQuestion('<%= questionid%>', '<%= videoID%>');">Save</button>
 		</div>
 		<div class="nav-item" >
-			<textarea placeholder="question content" id="question_content" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 100%; min-height:3.84615rem; margin: 0.30769rem 0 0.30769rem 0.30769rem;"><%= content %></textarea>
+			<textarea placeholder="question content" id="question_content_<%= questionid%>" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 100%; min-height:3.84615rem; margin: 0.30769rem 0 0.30769rem 0.30769rem;"><%= decodeURIComponent(content) %></textarea>
 		</div>
 		<div class="nav-item centered">
-			<input type="text" placeholder="answer A" id="content_answer_a" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;" value="<%= answera %>"/>
-			<div class="checkbox-tic-s"><input type="checkbox" class="answer_<%= questionid%>" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, '<%= questionid%>');" value="1"></input><label for="dev_debug"></label></div>
+			<input type="text" placeholder="answer A" id="content_answer_a_<%= questionid%>" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;" value="<%= answera %>"/>
+			<div class="checkbox-tic-s"><input type="checkbox" class="answer_edit_<%= questionid%>" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, '<%= questionid%>','edit');" value="1"></input><label for="dev_debug"></label></div>
 		</div>
 		<div class="nav-item centered">
-			<input type="text" placeholder="answer B"  id="content_answer_b"  style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;" value="<%= answerb %>"/>
-			<div class="checkbox-tic-s"><input type="checkbox" class="answer_<%= questionid%>" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, '<%= questionid%>');" value="2"></input><label for="dev_debug"></label></div>
+			<input type="text" placeholder="answer B"  id="content_answer_b_<%= questionid%>"  style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;" value="<%= answerb %>"/>
+			<div class="checkbox-tic-s"><input type="checkbox" class="answer_edit_<%= questionid%>" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, '<%= questionid%>','edit');" value="2"></input><label for="dev_debug"></label></div>
 		</div>
 		<div class="nav-item centered">
-			<input type="text" placeholder="answer C"  id="content_answer_c" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;" value="<%= answerc %>"/>
-			<div class="checkbox-tic-s"><input type="checkbox" class="answer_<%= questionid%>" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, '<%= questionid%>');" value="3"></input><label for="dev_debug"></label></div>
+			<input type="text" placeholder="answer C"  id="content_answer_c_<%= questionid%>" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;" value="<%= answerc %>"/>
+			<div class="checkbox-tic-s"><input type="checkbox" class="answer_edit_<%= questionid%>" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, '<%= questionid%>','edit');" value="3"></input><label for="dev_debug"></label></div>
 		</div>
 		<div class="nav-item centered">
-			<input type="text" placeholder="answer D"  id="content_answer_d" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;" value="<%= answerd %>"/>
-			<div class="checkbox-tic-s"><input type="checkbox" class="answer_<%= questionid%>" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, '<%= questionid%>');" value="4"></input><label for="dev_debug"></label></div>
+			<input type="text" placeholder="answer D"  id="content_answer_d_<%= questionid%>" style="border-radius:10px;font-family: Georgia, serif;font-style: italic;padding: 0.30769rem 0.61538rem;width: 90%; margin: 0.30769rem 0 0.30769rem -1.69231rem;" value="<%= answerd %>"/>
+			<div class="checkbox-tic-s"><input type="checkbox" class="answer_edit_<%= questionid%>" id="answer_new" onclick="MM.plugins.english.handleCheckBoxAsRadioGroup(this, '<%= questionid%>','edit');" value="4"></input><label for="dev_debug"></label></div>
 		</div>
 	</div>	
 </div>
@@ -97,11 +97,11 @@
 	
 	function onPlayerReady(event) {
 		player.addEventListener('onStateChange', function(e) {
-			console.log('content:', $('#current_time').val());
+			console.log('content:', $('#current_time_<%= questionid%>').val());
 			if(e.data==1){
 				function updateTime() {
 					currentTime = player.getCurrentTime();
-					$('#current_time').val(Math.round(currentTime));
+					$('#current_time_<%= questionid%>').val(Math.round(currentTime));
 				}
 				timeupdater = setInterval(updateTime, 500);
 			}
