@@ -1,11 +1,11 @@
 {
 "app_id" : "com.moodle.moodleenglishmobile",
 "versioncode" : "368",
-"versionname" : "1.3.2",
+"versionname" : "1.1",
 "cache_expiration_time" : 300000,
 "default_lang" : "en",
 "plugins" : ["upload","english", "contents", "participants", "addcontact", "addnote", "sendmessage"],
-"wsservice" : "moodle_english_mobile_app",
+"wsservice" : "moodle_mobile_app",
 "presets" : {"url": "", "username": ""},
 "sync_ws_on" : true,
 "sync_lang_on" : true,
