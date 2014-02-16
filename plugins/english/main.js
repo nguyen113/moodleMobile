@@ -111,6 +111,12 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 		showPlayVideo: function(youtubeVideoID, videoID){
 			MM.Router.navigate("");
             MM.log('Navigate to show video', 'english');
+				scoreList = [{
+					questionID: '',
+					correctAnswer: 0,
+					userAnswer: 0,
+					result: 0
+				}];			
             var questions;
 			var data = {
                 "get_questions_list": videoID
@@ -125,7 +131,6 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 						userAnswer: '0',
 						result: '0'
 					});
-					console.log(scoreList,'scorelist');
 				}
 				var tpl = {
 					youtubeVideoID: youtubeVideoID,
@@ -148,6 +153,7 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 		//		answerd: dap an d
 		///////////////////////////////////////////////////////////////
 		addQuestionToList: function(index, question, answera, answerb, answerc, answerd, questionid, videoid, source, correct){
+			MM.Router.navigate("");
 			MM.log('adding question to list'+source	, 'english');
 			question = decodeURIComponent(question);
 			var tpl = {
@@ -162,7 +168,7 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 				index: index,
 				source: source
 			}
-			console.log(correct,'correct test');
+			console.log(scoreList,'scoreList test');
 			var html = MM.tpl.render(MM.plugins.english.templates.question.html, tpl);
 			MM.panels.htmlAppend("center", html); 
 			MM.plugins.english.setUserChoice(questionid, correct,source);
@@ -445,8 +451,12 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 		},
 		
 		updateAnswer: function(elem,questionid,source,correct){
+			MM.Router.navigate("");
+console.log(scoreList,"scoreList before update");
 			var lastChoice = MM.plugins.english.handleCheckBoxAsRadioGroup(elem,questionid,source);
+console.log(scoreList,"scoreList before update");
 			var uAnswer = MM.plugins.english.getUserChoice(questionid, source);	
+console.log(scoreList,"scoreList before update");
 			for(var i=1;i<scoreList.length;i++){
 				if(scoreList[i].questionID == questionid){
 					var tQuestionId = scoreList[i].questionId;
@@ -465,49 +475,47 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 		},		
 		
 		getScore: function(videoID){
-			var cScore = 0;
-			var table1 = "<p><table width='100%' border='1'><tr><td width='20%'>Question</td>";
-			var table2 = "</tr><tr><td>Your choice</td>";
-			var table3 = "</tr><tr><td>Correct</td>";
-			var table4 = "</tr></table></p>";
-			var tableQuestion = "";
-			var tableUserChoice = "";
-			var tableCorrect = "";
-			console.log(scoreList,'scoreList');
-			MM.plugins.english.showListQuestion(videoID,"result");			
-			for(var i=1;i<scoreList.length;i++){
-				tableQuestion = tableQuestion + "<td>" + i + "</td>";
-				tableCorrect =  tableCorrect + "<td>" + scoreList[i].correctAnswer + "</td>";
-				console.log(tableCorrect,'tableCorrect');
-				if(scoreList[i].userAnswer == parseInt(scoreList[i].correctAnswer)){
-					tableUserChoice = tableUserChoice + "<td style='background: chartreuse;'>" + scoreList[i].userAnswer + "</td>";
-					var tQuestionId = scoreList[i].questionID;
-					var tCorrectAnswer = scoreList[i].correctAnswer;
-					var tUserAnswer = scoreList[i].userAnswer;
-					scoreList.pop({
-						questionID: scoreList[i].questionID
-					});
-					scoreList.push({
-						questionID: tQuestionId,
-						correctAnswer: tCorrectAnswer,
-						userAnswer: tUserAnswer,
-						result: 1
-					});
-					cScore++;
-				}else {
-					tableUserChoice = tableUserChoice + "<td style='background: red;'>" + scoreList[i].userAnswer + "</td>";
-				}
-			}	
-			console.log(cScore,'last score');
-			var htmlInput = "<div class= 'bd'><h1>You answer correct "+cScore+"/"+scoreList.length+" questions<h1></div>";
-			$('.video').html( table1 + tableQuestion + table2 + tableUserChoice + table3 + tableCorrect + table4);
-			$('#content-message').html(htmlInput);
-			scoreList = [{
-				questionID: '',
-				correctAnswer: 0,
-				userAnswer: 0,
-				result: 0
-			}];
+			MM.Router.navigate("");
+			MM.popConfirm('Are you sure to submit your answers?',function(videoID){
+				var cScore = 0;
+				var table1 = "<p><table width='100%' border='1'><tr><td width='20%'>Question</td>";
+				var table2 = "</tr><tr><td>Your choice</td>";
+				var table3 = "</tr><tr><td>Correct</td>";
+				var table4 = "</tr></table></p>";
+				var tableQuestion = "";
+				var tableUserChoice = "";
+				var tableCorrect = "";
+				console.log(scoreList,'scoreList');
+				MM.plugins.english.showListQuestion(videoID,"result");			
+				for(var i=1;i<scoreList.length;i++){
+					tableQuestion = tableQuestion + "<td>" + i + "</td>";
+					tableCorrect =  tableCorrect + "<td>" + scoreList[i].correctAnswer + "</td>";
+					console.log(tableCorrect,'tableCorrect');
+					if(scoreList[i].userAnswer == parseInt(scoreList[i].correctAnswer)){
+						tableUserChoice = tableUserChoice + "<td style='background: chartreuse;'>" + scoreList[i].userAnswer + "</td>";
+						var tQuestionId = scoreList[i].questionID;
+						var tCorrectAnswer = scoreList[i].correctAnswer;
+						var tUserAnswer = scoreList[i].userAnswer;
+						scoreList.pop({
+							questionID: scoreList[i].questionID
+						});
+						console.log(scoreList,'scorelist after pop');
+						scoreList.push({
+							questionID: tQuestionId,
+							correctAnswer: tCorrectAnswer,
+							userAnswer: tUserAnswer,
+							result: 1
+						});
+						cScore++;
+					}else {
+						tableUserChoice = tableUserChoice + "<td style='background: red;'>" + scoreList[i].userAnswer + "</td>";
+					}
+				}	
+				console.log(cScore,'last score');
+				var htmlInput = "<div class= 'bd'><h1>You answer correct "+cScore+"/"+scoreList.length-1+" questions<h1></div>";
+				$('.video').html( table1 + tableQuestion + table2 + tableUserChoice + table3 + tableCorrect + table4);
+				$('#content-message').html(htmlInput);
+			});
 		},
 		
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
