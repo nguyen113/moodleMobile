@@ -111,12 +111,27 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 		showPlayVideo: function(youtubeVideoID, videoID){
 			MM.Router.navigate("");
             MM.log('Navigate to show video', 'english');
+				scoreList = [{
+					questionID: '',
+					correctAnswer: 0,
+					userAnswer: 0,
+					result: 0
+				}];			
             var questions;
 			var data = {
                 "get_questions_list": videoID
             }
 			//list nhung cau hoi thuoc video do cung voi thoi gian cua no, truyen vao questions
             MM.plugins.english.WSCall(data, function(list) {
+				tlist = JSON.parse(list);
+				for (var i = 0; i<tlist.length; i++){
+					scoreList.push({
+						questionID: tlist[i].id,
+						correctAnswer: tlist[i].correct,
+						userAnswer: '0',
+						result: '0'
+					});
+				}
 				var tpl = {
 					youtubeVideoID: youtubeVideoID,
 					videoID: videoID,
@@ -137,23 +152,27 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 		//		answerc: dap an c
 		//		answerd: dap an d
 		///////////////////////////////////////////////////////////////
-		addQuestionToList: function(index, question, answera, answerb, answerc, answerd, questionid, videoid, source){
-			MM.log('adding question to list', 'english');
-			MM.log(questionid,"questionid");
+		addQuestionToList: function(index, question, answera, answerb, answerc, answerd, questionid, videoid, source, correct){
+			MM.Router.navigate("");
+			MM.log('adding question to list'+source	, 'english');
+			question = decodeURIComponent(question);
 			var tpl = {
 				videoID: videoid,
 				questionid: questionid,
-				question: decodeURIComponent(question),
+				question: question,
 				answera: decodeURIComponent(answera),
 				answerb: decodeURIComponent(answerb),
 				answerc: decodeURIComponent(answerc),
 				answerd: decodeURIComponent(answerd),
+				correct: correct,
 				index: index,
 				source: source
-				
 			}
+			console.log(scoreList,'scoreList test');
 			var html = MM.tpl.render(MM.plugins.english.templates.question.html, tpl);
 			MM.panels.htmlAppend("center", html); 
+			MM.plugins.english.setUserChoice(questionid, correct,source);
+			
 		},
 		
 		showAddVideo: function(){
@@ -211,26 +230,27 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 				var tpl={videoID:videoID, name:tVideo[0].name, url:tVideo[0].url, content:decodeURIComponent(tVideo[0].content)};
 				var html = MM.tpl.render(MM.plugins.english.templates.add_video.html,tpl);
 				MM.panels.show('right', html);
-				MM.plugins.english.showListQuestion(videoID);
+				MM.plugins.english.showListQuestion(videoID,'edit');
 			});
 		},
 		
 		///////////////////////////////////////////////////////////////
 		// Function lay tat ca cau hoi cua video hien thi len cot center
 		///////////////////////////////////////////////////////////////
-		showListQuestion: function(videoID){
+		showListQuestion: function(videoID,source){
 			MM.panels.showLoading('center');
 			var data = {
                 "get_questions_list": videoID
             }
-			MM.panels.html("center", "<div class='centered'><a href='#english/add_question/"+videoID+"'><button style='width:100%'>Add Question</button></a></div>"); 
+			if(source=='edit')	MM.panels.html("center", "<div class='centered'><a href='#english/add_question/"+videoID+"'><button style='width:100%'>Add Question</button></a></div>"); 
+			else 	MM.panels.html("center", "<div class='centered'><a href='#english/gallery'><button style='width:100%' >ReTest</button></a></div>"); 
 			//list nhung cau hoi thuoc video do cung voi thoi gian cua no, truyen vao questions
             MM.plugins.english.WSCall(data, function(list) {
 					var tList = JSON.parse(list);
 					var tempList = MM.plugins.english.sortListByTime(tList);
 					for (var i=0;i<tempList.length; i++){
 						var arrObj = tempList[i];
-						MM.plugins.english.addQuestionToList(i,arrObj.question,arrObj.answera, arrObj.answerb, arrObj.answerc, arrObj.answerd, arrObj.id, videoID,"edit");
+						MM.plugins.english.addQuestionToList(i,arrObj.question,arrObj.answera, arrObj.answerb, arrObj.answerc, arrObj.answerd, arrObj.id, videoID,source, arrObj.correct);
 					}
 			});
 		},
@@ -253,30 +273,30 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 		// Function them question vao DB
 		///////////////////////////////////////////////////////////////
 		addQuestion: function(videoID){
-			var content = encodeURIComponent($('#question_content').val());
-			var answera = $.trim($('#content_answer_a').val());
-			var answerb = $.trim($('#content_answer_b').val());
-			var answerc = $.trim($('#content_answer_c').val());
-			var answerd = $.trim($('#content_answer_d').val());
-			var correct = $('#correct_answer').val();
+			var content = encodeURIComponent($('#question_content_new').val());
+			var answera = $.trim($('#content_answer_a_new').val());
+			var answerb = $.trim($('#content_answer_b_new').val());
+			var answerc = $.trim($('#content_answer_c_new').val());
+			var answerd = $.trim($('#content_answer_d_new').val());
+			var correct = MM.plugins.english.getUserChoice('new','new');
 			var time = $('#current_time').val();
 			var data = {
 				'add_question':videoID,
-				'content':content,
-				'answera':answera,
-				'answerb':answerb,
-				'answerc':answerc,
-				'answerd':answerd,
+				'content':encodeURIComponent(content),
+				'answera':encodeURIComponent(answera),
+				'answerb':encodeURIComponent(answerb),
+				'answerc':encodeURIComponent(answerc),
+				'answerd':encodeURIComponent(answerd),
 				'correct':correct,
 				'time':time
 				};
 			MM.plugins.english.WSCall(data, function(outcome) {
 				if(outcome=='ok') {
-					MM.plugins.english.showListQuestion(videoID);
+					MM.plugins.english.showListQuestion(videoID,'edit');
 					MM.plugins.english.showAddQuestion();
 					MM.popMessage('Add question successfully!!',{autoclose: 5000});
 				}else {
-					MM.plugins.english.showListQuestion(videoID);
+					MM.plugins.english.showListQuestion(videoID,'edit');
 					MM.plugins.english.showAddQuestion();
 					MM.popErrorMessage('Failed to add question!! error:'+outcome,{autoclose: 5000});
 				};
@@ -296,6 +316,7 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 				};
 				MM.plugins.english.WSCall(data, function(question) {
 					question = JSON.parse(question);
+					var questionContent = decodeURIComponent(question[0].question);
 					var tpl={
 						youtubeVideoID:video[0].url,
 						videoID:videoID,
@@ -304,7 +325,7 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 						answerb: decodeURIComponent(question[0].answerb),
 						answerc: decodeURIComponent(question[0].answerc),
 						answerd: decodeURIComponent(question[0].answerd),
-						content: decodeURIComponent(question[0].question),
+						content: questionContent,
 						correct: question[0].correct,
 						time: question[0].time
 						};
@@ -317,24 +338,30 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 		///////////////////////////////////////////////////////////////
 		// Function edit question vao DB
 		///////////////////////////////////////////////////////////////		
-		editQuestion: function(questionID, video_id, content, answera, answerb, answerc, answerd, correct, time){
+		editQuestion: function(questionID,video_id){
 			MM.log('updating question','english');
+			var content = encodeURIComponent($('#question_content_'+questionID).val());
+			var answera = $.trim($('#content_answer_a_'+questionID).val());
+			var answerb = $.trim($('#content_answer_b_'+questionID).val());
+			var answerc = $.trim($('#content_answer_c_'+questionID).val());
+			var answerd = $.trim($('#content_answer_d_'+questionID).val());
+			var correct = MM.plugins.english.getUserChoice(questionID,'edit')
+			var time = $('#current_time_'+questionID).val();
 			var data = {
 				'edit_question':questionID,
-				'video_id':video_id,
-				'content':content,
-				'answera':answera,
-				'answerb':answerb,
-				'answerc':answerc,
-				'answerd':answerd,
+				'content':encodeURIComponent(content),
+				'answera':encodeURIComponent(answera),
+				'answerb':encodeURIComponent(answerb),
+				'answerc':encodeURIComponent(answerc),
+				'answerd':encodeURIComponent(answerd),
 				'correct':correct,
 				'time':time,
 				};
 			MM.plugins.english.WSCall(data, function(outcome) {
-						outcome = String(outcome);
+				outcome = String(outcome);
 				if(outcome=='ok') {
 					MM.plugins.english.showEditQuestion(questionID,video_id);
-					MM.plugins.english.showListQuestion(videoID);
+					MM.plugins.english.showListQuestion(video_id,'edit');
 					MM.popMessage('Edit question successfully!!',{autoclose: 5000});
 				} else {
 					MM.plugins.english.showEditQuestion(questionID,video_id);
@@ -412,15 +439,83 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 				MM.plugins.english.WSCall(data, function(outcome) {
 					outcome = String(outcome);
 					if(outcome=='ok') {
-							MM.plugins.english.showListQuestion(videoID);
+							MM.plugins.english.showListQuestion(videoID,'edit');
 							MM.popMessage('Delete question success!!',{autoclose: 5000});
 					}else {
-							MM.plugins.english.showListQuestion(videoID);
+							MM.plugins.english.showListQuestion(videoID,'edit');
 						MM.popErrorMessage('Delete question success!! error:'+outcome,{autoclose: 5000});
 					}
 				});
 			});
 			
+		},
+		
+		updateAnswer: function(elem,questionid,source,correct){
+			MM.Router.navigate("");
+console.log(scoreList,"scoreList before update");
+			var lastChoice = MM.plugins.english.handleCheckBoxAsRadioGroup(elem,questionid,source);
+console.log(scoreList,"scoreList before update");
+			var uAnswer = MM.plugins.english.getUserChoice(questionid, source);	
+console.log(scoreList,"scoreList before update");
+			for(var i=1;i<scoreList.length;i++){
+				if(scoreList[i].questionID == questionid){
+					var tQuestionId = scoreList[i].questionId;
+					var tCorrectAnswer = scoreList[i].correctAnswer;
+					scoreList.pop({
+						questionID: tQuestionId
+					});
+					scoreList.push({
+						questionID: tQuestionId,
+						correctAnswer: tCorrectAnswer,
+						userAnswer: uAnswer,
+						result: 0
+					});
+				}
+			}
+		},		
+		
+		getScore: function(videoID){
+			MM.Router.navigate("");
+			MM.popConfirm('Are you sure to submit your answers?',function(videoID){
+				var cScore = 0;
+				var table1 = "<p><table width='100%' border='1'><tr><td width='20%'>Question</td>";
+				var table2 = "</tr><tr><td>Your choice</td>";
+				var table3 = "</tr><tr><td>Correct</td>";
+				var table4 = "</tr></table></p>";
+				var tableQuestion = "";
+				var tableUserChoice = "";
+				var tableCorrect = "";
+				console.log(scoreList,'scoreList');
+				MM.plugins.english.showListQuestion(videoID,"result");			
+				for(var i=1;i<scoreList.length;i++){
+					tableQuestion = tableQuestion + "<td>" + i + "</td>";
+					tableCorrect =  tableCorrect + "<td>" + scoreList[i].correctAnswer + "</td>";
+					console.log(tableCorrect,'tableCorrect');
+					if(scoreList[i].userAnswer == parseInt(scoreList[i].correctAnswer)){
+						tableUserChoice = tableUserChoice + "<td style='background: chartreuse;'>" + scoreList[i].userAnswer + "</td>";
+						var tQuestionId = scoreList[i].questionID;
+						var tCorrectAnswer = scoreList[i].correctAnswer;
+						var tUserAnswer = scoreList[i].userAnswer;
+						scoreList.pop({
+							questionID: scoreList[i].questionID
+						});
+						console.log(scoreList,'scorelist after pop');
+						scoreList.push({
+							questionID: tQuestionId,
+							correctAnswer: tCorrectAnswer,
+							userAnswer: tUserAnswer,
+							result: 1
+						});
+						cScore++;
+					}else {
+						tableUserChoice = tableUserChoice + "<td style='background: red;'>" + scoreList[i].userAnswer + "</td>";
+					}
+				}	
+				console.log(cScore,'last score');
+				var htmlInput = "<div class= 'bd'><h1>You answer correct "+cScore+"/"+scoreList.length-1+" questions<h1></div>";
+				$('.video').html( table1 + tableQuestion + table2 + tableUserChoice + table3 + tableCorrect + table4);
+				$('#content-message').html(htmlInput);
+			});
 		},
 		
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -523,8 +618,7 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 			});
 		},
 
-		sortListByTime: function(list)
-		{	
+		sortListByTime: function(list){	
 			for (var i = 0; i<list.length; i++)
 			{
 				for(var j = i+1; j<list.length; j++){
@@ -538,19 +632,64 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 			return list;
 		},
 		
-		handleCheckBoxAsRadioGroup: function(elem, questionID){
-			var elems = $(".answer_"+questionID);
+		handleCheckBoxAsRadioGroup: function(elem, questionID, source){
+			var lastChecked=0;
+			if(source === 'new'){
+				var elems = $(".answer_" + questionID);				
+			}else{
+				var elems = $(".answer_" + source + "_" + questionID);
+			}
 			var currentState = elem.checked;
 			var elemsLength = elems.length;
 			for(var i=0; i<elemsLength; i++)
 			{
 			if(elems[i].type === "checkbox")
 				{
-
-					elems[i].checked = false;   
+					if(elems[i].checked && elems[i].value!=elem.value){
+						lastChecked = elems[i].value;
+						elems[i].checked = false;   
+					}
 				}
 			}
 			elem.checked = currentState;
+			return lastChecked;
+		},
+		
+		getUserChoice: function(questionID,source){
+			if(source === 'new'){
+				var elems = $(".answer_" + questionID);				
+			}else{
+				var elems = $(".answer_" + source + "_" + questionID);
+			}
+			var elemsLength = elems.length;
+			var userChoice=0;
+			for(var i=0; i<elemsLength; i++)
+			{
+			if(elems[i].type === "checkbox")
+				{
+					if(elems[i].checked === true){
+						userChoice = parseInt(elems[i].value);
+					}
+				}
+			}
+			return userChoice;
+		},
+		
+		setUserChoice: function(questionID,correct,source){
+			if(source!="play"){
+				var elems = $(".answer_play_" + questionID);	
+				var elemsLength = elems.length;
+				var userChoice=0;
+				for(var i=0; i<elemsLength; i++)
+				{
+				if(elems[i].type === "checkbox")
+					{
+						if(elems[i].value === correct){
+							elems[i].checked = true;
+						}
+					}
+				}
+			}
 		},
 		
         templates: {
@@ -570,11 +709,23 @@ define(templates, function (playVideo, gallery, add_video, add_question, questio
 				html: question
 			}
         }
-     }   
+    }
+	
+	////////////////////////////////////////
+	// Load YoutubeAPI
+	////////////////////////////////////////
 	var tag = document.createElement("script"); 
 	tag.src = "https://www.youtube.com/iframe_api"; 
 	var firstScriptTag = document.getElementsByTagName("script")[0]; 
 	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+	
+	var scoreList = [{
+		questionID: '',
+		correctAnswer: 0,
+		userAnswer: 0,
+		result: 0
+	}];
+	
 	MM.registerPlugin(plugin);
 
 });

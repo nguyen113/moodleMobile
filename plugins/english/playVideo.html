@@ -3,17 +3,16 @@
 	var playerState;
 	var timeupdater = null;
 	var videotime = 0;
+	var btnEndState = 0;
 	var questions=<%= questions %>;
 	var req = {"get_content_by_video":<%= videoID %>};
 	MM.englishWSCall(req, function(data){
-		$('.content-message').append('<h1>'+data+'</h1>');
+		$('#content-message').html('<h1>'+data+'</h1>');
 	});
 	var tempList = MM.plugins.english.sortListByTime(questions);
 	var index = 0;
-	function onPlayerReady(event) {
-		MM.panels.html('center', '');
-		MM.panels.htmlPrepend("center",'<button>END</button>');
-		playerState = -1;
+	function onPlayerReady(event) {		
+		playerState = 1;
 		function updateTime() {
 			var oldTime = videotime;
 			if(player && player.getCurrentTime) {
@@ -25,14 +24,40 @@
 		}
 		function onProgress(videotime){
 			var currentTime=Math.round(videotime);
-			console.log(tempList,"tempList");
-			if(currentTime==tempList[index].time){
-				console.log("Current time " + player.getCurrentTime() );
-				MM.plugins.english.addQuestionToList( index, tempList[index].question, tempList[index].answera, tempList[index].answerb, tempList[index].answerc, tempList[index].answerd, tempList[index].videoid, "play");
-				index++;
+			if((typeof(tempList[index]) === "undefined")&&(btnEndState == 0)){
+				btnEndState = 1;
+				clearInterval(timeupdater);
+				$('#content-message').html('<h1>There is no question anymore!!!</h1>');
+				MM.panels.htmlPrepend("center",'<button style="width:100%;" onclick="MM.plugins.english.getScore(<%= videoID %>);">END</button>');
+			}else {
+				if((typeof(tempList[index]) !== "undefined")&&(currentTime==tempList[index].time)){
+					console.log("Current time " + player.getCurrentTime() );
+					MM.plugins.english.addQuestionToList( index, tempList[index].question, tempList[index].answera, tempList[index].answerb, tempList[index].answerc, tempList[index].answerd, tempList[index].id, tempList[index].videoid, "play",tempList[index].correct);
+					index++;
+				}
 			}
 		}
-		timeupdater = setInterval(updateTime, 1000);
+		
+		player.addEventListener('onStateChange', function(e) {
+			if(e.data==1&&playerState==1){
+				MM.panels.html('center', '');
+				updateTime();
+				timeupdater = setInterval(updateTime, 300);
+				playerState = 2;				
+			}
+			else{
+				if(e.data!=1){
+					clearInterval(timeupdater);
+				}
+				if(e.data!=1) {
+					timeupdater = setInterval(updateTime, 300);
+				}
+				if(e.data==0){
+						MM.plugins.english.getScore(<%= videoID %>);
+					}
+			}
+		});
+		
 	}
 	
 </script>
@@ -41,9 +66,6 @@
 		<div class="video">
             <div class="nav nav-v">
 				<div id="player">
-					<div id="displayDiv">
-						<div id="title"></div>
-					</div>
 				</div>             
             </div>
 		</div>
@@ -58,4 +80,3 @@
 		'onReady': onPlayerReady
     }});
 </script>
-
