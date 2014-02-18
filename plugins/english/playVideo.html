@@ -7,7 +7,9 @@
 	var questions=<%= questions %>;
 	var req = {"get_content_by_video":<%= videoID %>};
 	MM.englishWSCall(req, function(data){
-		$('#content-message').html('<h1>'+data+'</h1>');
+		console.log(data,'data');
+		data= String(data);
+		$('#content-message').html('<h1>'+decodeURIComponent(data)+'</h1>');
 	});
 	var tempList = MM.plugins.english.sortListByTime(questions);
 	var index = 0;
